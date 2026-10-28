@@ -1,0 +1,633 @@
+import React, { useState } from 'react';
+import { Code2, Copy, Check, Download, X, FileCode, CheckCircle2 } from 'lucide-react';
+
+interface CodeExportModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export const CodeExportModal: React.FC<CodeExportModalProps> = ({ isOpen, onClose }) => {
+  const [activeFormat, setActiveFormat] = useState<'html' | 'react'>('html');
+  const [isCopied, setIsCopied] = useState(false);
+
+  if (!isOpen) return null;
+
+  // Complete standalone single-file production HTML code embodying all features
+  const standaloneHtmlCode = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Second Serving – Surplus Food Matching & Safety Dispatch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f2f5f0; --surf: #ffffff; --ink: #14241b; --mute: #54665b; --line: #d1dbd1;
+  --pine: #14532d; --onpine: #ffffff; --saf: #e69d00; --chili: #c8381f; --ok: #15803d;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1712; --surf: #14231b; --ink: #eaf2ec; --mute: #8fa094; --line: #24382c;
+    --pine: #34d399; --onpine: #062413; --saf: #fbbf24; --chili: #f87171; --ok: #4ade80;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1712; --surf: #14231b; --ink: #eaf2ec; --mute: #8fa094; --line: #24382c;
+  --pine: #34d399; --onpine: #062413; --saf: #fbbf24; --chili: #f87171; --ok: #4ade80;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.5 'Bricolage Grotesque', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 20px 16px 60px; }
+header { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; padding: 10px 0 24px; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; margin: 0; letter-spacing: -0.03em; line-height: 1; }
+.sub { color: var(--mute); max-width: 52ch; margin: 10px 0 0; font-size: 15px; }
+.stats { display: flex; gap: 10px; flex-wrap: wrap; }
+.stat { background: var(--surf); border: 1px solid var(--line); padding: 12px 18px; border-radius: 14px; min-width: 110px; }
+.stat.p { background: var(--pine); color: var(--onpine); border-color: var(--pine); }
+.stat b { display: block; font-size: 26px; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 12px; opacity: 0.85; }
+nav { display: flex; gap: 8px; margin-bottom: 22px; border-bottom: 2px solid var(--line); overflow-x: auto; }
+nav button { background: none; border: 0; color: var(--mute); font: 600 15px inherit; padding: 10px 16px; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; }
+nav button[aria-selected="true"] { color: var(--ink); border-color: var(--pine); font-weight: 800; }
+.grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px; }
+@media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+.panel { background: var(--surf); border: 1px solid var(--line); border-radius: 18px; padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+h2 { font-size: 20px; margin: 0 0 4px; font-weight: 800; letter-spacing: -0.01em; }
+.hint { color: var(--mute); font-size: 13px; margin: 0 0 14px; }
+label { display: block; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--mute); margin: 12px 0 4px; }
+input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: inherit; font-size: 14px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn { background: var(--pine); color: var(--onpine); border: 0; border-radius: 12px; padding: 12px 18px; font: 700 15px inherit; cursor: pointer; margin-top: 16px; width: 100%; text-align: center; }
+.btn.alt { background: var(--surf); color: var(--ink); border: 1.5px solid var(--line); width: auto; margin: 0; padding: 8px 14px; font-size: 13px; font-weight: 600; }
+.btn:hover { opacity: 0.92; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+.chip { background: var(--surf); border: 1px solid var(--line); padding: 5px 10px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600; }
+.chip.sel { background: var(--pine); color: var(--onpine); border-color: var(--pine); }
+.stepper { display: flex; align-items: center; gap: 6px; }
+.stepper button { width: 34px; height: 36px; border: 1px solid var(--line); background: var(--surf); border-radius: 8px; font-weight: bold; cursor: pointer; }
+.safe { height: 10px; border-radius: 5px; background: var(--line); overflow: hidden; margin: 10px 0 4px; }
+.safe i { display: block; height: 100%; transition: width 0.4s; background: var(--ok); }
+.match { border: 1px solid var(--line); border-radius: 14px; padding: 15px; margin-top: 12px; display: grid; gap: 6px; }
+.match.pick { border: 2px solid var(--pine); background: rgba(20, 83, 45, 0.04); }
+.mh { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.score { font-weight: 800; font-size: 20px; color: var(--pine); font-variant-numeric: tabular-nums; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; font-size: 12px; color: var(--mute); margin-top: 4px; }
+.log { list-style: none; margin: 0; padding: 0; max-height: 240px; overflow-y: auto; font-size: 13px; }
+.log li { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.log time { font-mono; font-size: 11px; color: var(--mute); margin-right: 8px; }
+.item { display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; margin-top: 8px; background: var(--bg); }
+.x { background: none; border: 0; color: var(--chili); font-weight: bold; cursor: pointer; padding: 6px; }
+.hide { display: none !important; }
+.radar { width: 100%; height: 260px; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; margin-top: 14px; position: relative; overflow: hidden; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <h1>Second Serving</h1>
+    <p class="sub">Dynamic food rescue matching restaurants with nearby verified shelters, backed by bacterial food safety timers, zone management, GPS routing, and instant pickup dispatch.</p>
+  </div>
+  <div class="stats">
+    <div class="stat p"><b id="sMeals">0</b><span>meals rescued</span></div>
+    <div class="stat"><b id="sKg" style="color:var(--pine)">0</b><span>kg saved</span></div>
+    <div class="stat"><b id="sCo2" style="color:var(--saf)">0</b><span>kg CO₂ avoided</span></div>
+  </div>
+</header>
+
+<nav role="tablist">
+  <button role="tab" aria-selected="true" data-tab="rest">1. Kitchens & Zones</button>
+  <button role="tab" aria-selected="false" data-tab="plan">2. Event Planner</button>
+  <button role="tab" aria-selected="false" data-tab="post">3. Post Surplus & Match</button>
+  <button role="tab" aria-selected="false" data-tab="ngo">4. NGO Board</button>
+</nav>
+
+<!-- Tab 1: Kitchens & Zones -->
+<section id="rest" class="grid">
+  <div class="panel">
+    <h2>Register Kitchen Hub</h2>
+    <p class="hint">Distances & ETA calculations anchor from this facility.</p>
+    <label for="rn">Kitchen or Banquet Name</label><input id="rn" placeholder="e.g. Sri Lakshmi Banquet Hall">
+    <div class="row">
+      <div>
+        <label for="ra">Operational Zone</label>
+        <select id="ra"></select>
+      </div>
+      <div>
+        <label for="rph">Contact Phone</label>
+        <input id="rph" placeholder="+91 98480 00000">
+      </div>
+    </div>
+    <label for="rl">Street Address / Landmark</label><input id="rl" placeholder="e.g. Opposite City Centre Mall, 2nd floor">
+    <div style="margin-top:14px;display:flex;gap:10px;align-items:center;">
+      <button type="button" class="btn alt" id="gps">Enable Device GPS</button>
+      <span class="hint" id="gpsNote" style="margin:0">GPS ready</span>
+    </div>
+    <button class="btn" id="addRest">Save Kitchen Hub</button>
+    <div style="margin-top:20px;padding-top:14px;border-top:1px solid var(--line)">
+      <h2 style="font-size:16px">+ Add Custom City Area / Zone</h2>
+      <div class="row" style="margin-top:8px">
+        <input id="newZoneName" placeholder="New Zone Name (e.g. One Town)">
+        <button type="button" class="btn alt" id="addZoneBtn">Add Zone</button>
+      </div>
+    </div>
+  </div>
+  <div class="panel">
+    <h2>Registered Kitchens</h2>
+    <p class="hint">Select an active kitchen to calculate pickup routing.</p>
+    <div id="restList"></div>
+  </div>
+</section>
+
+<!-- Tab 2: Event Planner -->
+<section id="plan" class="grid hide">
+  <div class="panel">
+    <h2>Cook the Right Amount</h2>
+    <p class="hint">Forecast guest turnout from past attendance rates to prevent excess over-preparation.</p>
+    <label for="inv">Guests Invited</label><input id="inv" type="number" min="1" value="200">
+    <div class="row">
+      <div><label for="rsvp">Turnout Rate (%)</label><input id="rsvp" type="number" min="1" max="100" value="65"></div>
+      <div><label for="cpm">Cost per Meal (₹)</label><input id="cpm" type="number" min="1" value="180"></div>
+    </div>
+    <label for="plan-meals">Planned Cooking Volume</label><input id="plan-meals" type="number" min="1" value="200">
+    <label for="buf">Safety Cushion (%)</label><input id="buf" type="number" min="0" max="30" value="8">
+  </div>
+  <div class="panel">
+    <h2>Attendance & Cost Forecast</h2>
+    <p class="hint" id="planNote"></p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;margin:14px 0">
+      <div class="panel" style="padding:12px"><b><span id="fAtt">0</span></b><span class="hint" style="margin:0;display:block">expected guests</span></div>
+      <div class="panel" style="padding:12px"><b style="color:var(--pine)"><span id="fRec">0</span></b><span class="hint" style="margin:0;display:block">recommended cook</span></div>
+      <div class="panel" style="padding:12px"><b style="color:var(--chili)"><span id="fSur">0</span></b><span class="hint" style="margin:0;display:block">surplus meals</span></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;margin-bottom:14px">
+      <div class="panel" style="padding:12px"><b style="color:var(--chili)" id="fCost">₹0</b><span class="hint" style="margin:0;display:block">cost of surplus</span></div>
+      <div class="panel" style="padding:12px"><b style="color:var(--ok)" id="fSave">₹0</b><span class="hint" style="margin:0;display:block">money saved</span></div>
+      <div class="panel" style="padding:12px"><b id="fRisk">Low</b><span class="hint" style="margin:0;display:block">shortfall risk</span></div>
+    </div>
+    <button class="btn" id="toPost">Export Surplus to Live Match List</button>
+  </div>
+</section>
+
+<!-- Tab 3: Post & Match -->
+<section id="post" class="grid hide">
+  <div>
+    <div class="panel">
+      <h2>Post Leftover Dishes</h2>
+      <p class="hint">The food safety window automatically tracks bacterial growth limits per category.</p>
+      <label for="prest">Source Kitchen</label><select id="prest"></select>
+      <label for="iname">Food Dish Name</label><input id="iname" placeholder="e.g. Royal Veg Dum Biryani">
+      <div class="row">
+        <div><label for="iqty">Meals Left</label><input id="iqty" type="number" min="1" value="40"></div>
+        <div><label for="idiet">Diet Classification</label>
+          <select id="idiet"><option value="veg">Vegetarian</option><option value="nonveg">Non-Vegetarian</option></select>
+        </div>
+      </div>
+      
+      <!-- Category Window Section -->
+      <div style="background:var(--bg);padding:14px;border-radius:12px;margin-top:12px;border:1px solid var(--line)">
+        <label style="margin-top:0">Category Window & Safe Duration</label>
+        <div class="chip-row" id="catChips"></div>
+        <div class="row" style="margin-top:8px">
+          <div>
+            <label style="margin-top:0">Adjust Safe Hours</label>
+            <div class="stepper">
+              <button type="button" id="hMinus">-</button>
+              <input id="catHours" type="number" step="0.5" min="0.5" max="24" value="4" style="text-align:center">
+              <button type="button" id="hPlus">+</button>
+            </div>
+          </div>
+          <div>
+            <label style="margin-top:0">Cooked Ago (Min)</label>
+            <input id="iago" type="number" min="0" value="30">
+          </div>
+        </div>
+      </div>
+
+      <button class="btn alt" id="addItem" style="margin-top:12px;width:100%">Add Item to Current Batch</button>
+      <div id="items" style="margin-top:12px"></div>
+
+      <label for="store">Storage Condition</label>
+      <select id="store">
+        <option value="1">Hot above 60°C or chilled below 5°C (100% safe window)</option>
+        <option value="0.7">Room temperature, covered (30% reduced time window)</option>
+      </select>
+
+      <button class="btn" id="go">Find Matches & Alert Shelters</button>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <h2>Live Dispatch Log</h2>
+      <ul class="log" id="log"><li>Ready for post events.</li></ul>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Recipient Matches & Route Plan</h2>
+    <div id="clock" class="hide" style="padding:12px;background:var(--bg);border-radius:12px;margin-bottom:12px">
+      <b id="clockTxt"></b>
+      <div class="safe"><i id="clockBar"></i></div>
+      <span class="hint" id="clockSub" style="margin:0;display:block"></span>
+    </div>
+    <div id="matches"><div style="padding:30px;text-align:center;color:var(--mute)">Post surplus dishes to find viable shelters.</div></div>
+    <div id="plan-out"></div>
+  </div>
+</section>
+
+<!-- Tab 4: NGO Board -->
+<section id="ngo" class="hide">
+  <div class="panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+      <div>
+        <h2>Verified Partner Shelters & Daily Gaps</h2>
+        <p class="hint" style="margin:0">Organizations update daily meal gaps and transport availability in real time.</p>
+      </div>
+    </div>
+    <div class="row" style="max-width:540px;margin-bottom:16px">
+      <div>
+        <label style="margin-top:0">Diet Accepted</label>
+        <select id="fd"><option value="all">All Diets</option><option value="veg">Vegetarian Only</option><option value="nonveg">Accepts Non-Veg</option></select>
+      </div>
+      <div>
+        <label style="margin-top:0">Pickup Logistics</label>
+        <select id="fv"><option value="all">All Transport</option><option value="own">Has Own Vehicle</option><option value="need">Needs Volunteer Delivery</option></select>
+      </div>
+    </div>
+    <div id="needs" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:14px"></div>
+  </div>
+</section>
+</div>
+
+<script>
+var AREAS = [
+  {id:"a1", n:"Benz Circle", lat:16.5036, lng:80.6540},
+  {id:"a2", n:"MG Road", lat:16.5090, lng:80.6420},
+  {id:"a3", n:"Governorpet", lat:16.5120, lng:80.6290},
+  {id:"a4", n:"Patamata", lat:16.4930, lng:80.6600},
+  {id:"a5", n:"Auto Nagar", lat:16.4850, lng:80.6700},
+  {id:"a6", n:"Gunadala", lat:16.5280, lng:80.6590}
+];
+
+var CATEGORIES = [
+  {n:"Rice & Dal", h:4, diet:"veg"},
+  {n:"Veg Curries", h:3, diet:"veg"},
+  {n:"Meat & Seafood", h:2.5, diet:"nonveg"},
+  {n:"Roti & Bread", h:6, diet:"veg"},
+  {n:"Dairy & Sweets", h:2, diet:"veg"},
+  {n:"Salads & Fruits", h:2, diet:"veg"},
+  {n:"Bakery Goods", h:12, diet:"veg"}
+];
+
+var ORGS = [
+  {id:1, n:"Asha Shelter Home", t:"Shelter", lat:16.5170, lng:80.6350, need:40, nv:false, own:false, urg:5, open:"until 11 pm", phone:"+91 94401 22331"},
+  {id:2, n:"Karuna Children’s Home", t:"Children’s home", lat:16.4980, lng:80.6500, need:55, nv:false, own:true, urg:4, open:"until 10 pm", phone:"+91 94401 44552"},
+  {id:3, n:"Seva Community Kitchen", t:"Community kitchen", lat:16.5200, lng:80.6600, need:120, nv:true, own:true, urg:3, open:"24 hours", phone:"+91 94401 66773"},
+  {id:4, n:"Hope Old Age Home", t:"Elder care", lat:16.5060, lng:80.6480, need:30, nv:false, own:false, urg:4, open:"until 9 pm", phone:"+91 94401 88994"},
+  {id:5, n:"Railway Station Night Outreach", t:"Street outreach", lat:16.5190, lng:80.6190, need:80, nv:true, own:false, urg:5, open:"after 8 pm", phone:"+91 94401 11225"},
+  {id:6, n:"Disha Learning Centre", t:"After-school NGO", lat:16.4800, lng:80.6350, need:35, nv:true, own:true, urg:2, open:"until 8 pm", phone:"+91 94401 33446"}
+];
+
+var S = { rests:[], items:[], sel:0, meals:420, kg:168, co2:420, cur:null, curCat:0 };
+var $ = function(i){ return document.getElementById(i); };
+
+// Setup Areas
+function renderAreaSelect() {
+  $("ra").innerHTML = AREAS.map(function(a, idx){ return '<option value="'+idx+'">'+a.n+'</option>'; }).join("");
+}
+$("addZoneBtn").onclick = function() {
+  var zn = $("newZoneName").value.trim();
+  if(!zn) return;
+  var last = AREAS[AREAS.length-1];
+  AREAS.push({id:"z"+Date.now(), n:zn, lat:last.lat + 0.005, lng:last.lng + 0.005});
+  $("newZoneName").value = "";
+  renderAreaSelect();
+  drawRests();
+  alert("Added zone: " + zn);
+};
+
+// Setup Category Chips
+function renderCatChips() {
+  $("catChips").innerHTML = CATEGORIES.map(function(c, i){
+    return '<span class="chip '+(S.curCat===i?'sel':'')+'" data-ci="'+i+'">'+c.n+' ('+c.h+'h)</span>';
+  }).join("");
+}
+$("catChips").onclick = function(e){
+  var ci = e.target.getAttribute("data-ci");
+  if(ci !== null) {
+    S.curCat = +ci;
+    $("catHours").value = CATEGORIES[S.curCat].h;
+    $("idiet").value = CATEGORIES[S.curCat].diet;
+    renderCatChips();
+  }
+};
+$("hMinus").onclick = function(){ $("catHours").value = Math.max(0.5, (+$("catHours").value - 0.5).toFixed(1)); };
+$("hPlus").onclick = function(){ $("catHours").value = Math.min(24, (+$("catHours").value + 0.5).toFixed(1)); };
+
+// Navigation Tabs
+function show(tab) {
+  ["rest","plan","post","ngo"].forEach(function(t){ $(t).classList.toggle("hide", t!==tab); });
+  document.querySelectorAll("nav button").forEach(function(b){ b.setAttribute("aria-selected", b.dataset.tab===tab); });
+  if(tab==="ngo") drawNeeds();
+}
+document.querySelectorAll("nav button").forEach(function(b){ b.onclick = function(){ show(b.dataset.tab); }; });
+
+// Geolocation
+function km(a,b){
+  var R=6371, r=Math.PI/180, dl=(b.lat-a.lat)*r, dn=(b.lng-a.lng)*r;
+  var h = Math.sin(dl/2)*Math.sin(dl/2) + Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dn/2)*Math.sin(dn/2);
+  return Math.round(R * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1-h)) * 1.3 * 10) / 10;
+}
+$("gps").onclick = function(){
+  if(!navigator.geolocation){ $("gpsNote").textContent = "GPS not supported."; return; }
+  $("gpsNote").textContent = "Acquiring GPS fix…";
+  navigator.geolocation.getCurrentPosition(function(p){
+    S.gps = {lat: p.coords.latitude, lng: p.coords.longitude};
+    $("gpsNote").textContent = "GPS locked: " + p.coords.latitude.toFixed(4) + "°N";
+  }, function(){ $("gpsNote").textContent = "GPS unavailable. Zone used."; });
+};
+
+// Kitchen Hubs
+S.rests = [
+  {n:"Spice Route Banquet", addr:"Opposite City Centre Mall, 2nd floor", area:"Benz Circle", lat:16.5036, lng:80.6540},
+  {n:"Royal Palm Wedding Lawns", addr:"Near Ring Road, Patamata", area:"Patamata", lat:16.4930, lng:80.6600}
+];
+$("addRest").onclick = function(){
+  var n = $("rn").value.trim();
+  if(!n) return alert("Enter kitchen name.");
+  var a = AREAS[+$("ra").value];
+  var loc = S.gps || {lat: a.lat, lng: a.lng};
+  S.rests.push({n:n, addr:$("rl").value.trim()||a.n, area:a.n, lat:loc.lat, lng:loc.lng});
+  $("rn").value=""; $("rl").value=""; S.gps=null;
+  drawRests();
+};
+function drawRests(){
+  $("restList").innerHTML = S.rests.map(function(r, i){
+    return '<div class="item"><div><b>'+r.n+'</b><div class="hint" style="margin:2px 0">'+r.area+' · '+r.addr+'</div></div>'+
+    '<div><button class="btn alt" onclick="S.sel='+i+';drawRests();show(\\'post\\')">Post Surplus</button></div></div>';
+  }).join("");
+  $("prest").innerHTML = S.rests.map(function(r, i){ return '<option value="'+i+'" '+(i===S.sel?'selected':'')+'>'+r.n+' ('+r.area+')</option>'; }).join("");
+}
+$("prest").onchange = function(){ S.sel = +$("prest").value; };
+
+// Event Planner
+function forecast(){
+  var inv = +$("inv").value||0, r = (+$("rsvp").value||0)/100, cpm = +$("cpm").value||0, p = +$("plan-meals").value||0, b = (+$("buf").value||0)/100;
+  var att = Math.round(inv * r), rec = Math.ceil(att * (1 + b)), sur = Math.max(0, p - att);
+  $("fAtt").textContent = att; $("fRec").textContent = rec; $("fSur").textContent = sur;
+  $("fCost").textContent = "₹" + (sur * cpm).toLocaleString();
+  $("fSave").textContent = "₹" + (Math.max(0, p - rec) * cpm).toLocaleString();
+  var risk = p < att ? "High" : p < rec ? "Medium" : "Low";
+  $("fRisk").textContent = risk;
+  $("planNote").textContent = p > rec ? "You are cooking "+(p-rec)+" meals above the safety buffer. Cooking "+rec+" meals saves money and prevents waste." : "Plan matches expected attendance.";
+  return sur;
+}
+["inv","rsvp","cpm","plan-meals","buf"].forEach(function(i){ $(i).oninput = forecast; });
+$("toPost").onclick = function(){
+  var s = forecast();
+  if(s > 0){ S.items.push({name:"Event Banquet Surplus", qty:s, diet:"veg", life:4*60, ago:10, t0:Date.now()}); drawItems(); show("post"); }
+};
+
+// Post Surplus & Category Window
+function curAgo(it){ return it.ago + (Date.now() - it.t0)/60000; }
+function drawItems(){
+  $("items").innerHTML = S.items.map(function(it, i){
+    return '<div class="item"><div><b>'+it.name+'</b> · '+it.qty+' meals ('+(it.diet==='veg'?'Veg':'Non-Veg')+')<div class="hint" style="margin:2px 0">Window: '+(it.life/60)+'h · Cooked '+Math.round(curAgo(it))+'m ago</div></div>'+
+    '<button class="x" onclick="S.items.splice('+i+',1);drawItems()">Remove</button></div>';
+  }).join("");
+}
+$("addItem").onclick = function(){
+  var n = $("iname").value.trim(), q = +$("iqty").value, h = +$("catHours").value||4, ago = +$("iago").value||0;
+  if(!n || q < 1) return alert("Enter item and valid meal count.");
+  S.items.push({name:n, qty:Math.round(q), diet:$("idiet").value, life:h*60, ago:ago, t0:Date.now()});
+  $("iname").value = "";
+  drawItems();
+};
+
+function safeMin(){
+  if(!S.items.length) return 0;
+  var f = +$("store").value;
+  return Math.max(0, Math.round(Math.min.apply(null, S.items.map(function(it){ return it.life*f - curAgo(it); }))));
+}
+function totalLife(){ return Math.min.apply(null, S.items.map(function(it){ return it.life*(+$("store").value); })) || 1; }
+
+// Match Engine
+$("go").onclick = function(){
+  var rest = S.rests[S.sel];
+  if(!rest || !S.items.length) return alert("Add items before matching.");
+  var vq = 0, nq = 0;
+  S.items.forEach(function(it){ if(it.diet==="veg") vq+=it.qty; else nq+=it.qty; });
+  var tot = vq + nq, left = safeMin();
+  
+  var list = ORGS.map(function(o){
+    var d = km(rest, o), t = Math.round(d/22*60 + (o.own?12:22));
+    var acc = o.nv ? tot : vq;
+    var fit = acc ? Math.min(acc, o.need)/Math.max(acc, o.need) : 0;
+    var ok = acc > 0 && o.need > 0 && t + 10 <= left;
+    var sc = Math.round((fit*30 + Math.max(0, 1 - d/10)*25 + o.urg/5*20 + Math.max(0, (left-t)/left)*25) * (ok ? 1 : 0.3));
+    return {o:o, d:d, t:t, ok:ok, score:sc, acc:acc};
+  }).sort(function(a,b){ return b.score - a.score; });
+
+  var vr = vq, nr = nq, alloc = {};
+  list.forEach(function(m){
+    if(!m.ok) return;
+    var g = Math.min(m.o.need, m.o.nv ? vr+nr : vr);
+    if(g > 0){ alloc[m.o.id] = g; if(m.o.nv){ var tn = Math.min(nr,g); nr-=tn; vr-=(g-tn); } else { vr-=g; } }
+  });
+
+  $("clock").classList.remove("hide");
+  $("clockTxt").textContent = left > 0 ? "Safe to consume for another " + Math.floor(left/60) + "h " + (left%60) + "m" : "Expired. Do not donate.";
+  $("clockTxt").style.color = left < 45 ? "var(--chili)" : "var(--ok)";
+  $("clockBar").style.width = Math.min(100, (left/totalLife())*100) + "%";
+
+  $("matches").innerHTML = list.map(function(m){
+    var a = alloc[m.o.id];
+    return '<div class="match '+(a?'pick':'')+'"><div class="mh"><b>'+m.o.n+'</b><span class="score">'+m.score+'%</span></div>'+
+    '<div class="tags"><span>'+m.o.t+'</span>·<span>'+m.d+' km away</span>·<span>Needs '+m.o.need+' meals</span>·<span>'+(m.o.nv?'Accepts Non-Veg':'Veg Only')+'</span>·<span>'+(m.o.own?'Own vehicle':'Volunteer courier')+'</span></div>'+
+    (a ? '<div style="margin-top:8px"><b>Suggested: '+a+' meals</b>. Arrival in ~'+m.t+' min.</div>' : '')+'</div>';
+  }).join("");
+
+  var picks = list.filter(function(m){ return alloc[m.o.id]; });
+  if(picks.length){
+    $("plan-out").innerHTML = '<button class="btn" id="conf">Confirm & Dispatch Pickups</button>';
+    $("conf").onclick = function(){
+      var ctot = 0;
+      picks.forEach(function(m){
+        ctot += alloc[m.o.id];
+        m.o.need = Math.max(0, m.o.need - alloc[m.o.id]);
+        log("Dispatched "+alloc[m.o.id]+" meals to "+m.o.n+" (ETA: "+m.t+"m). PIN: "+Math.floor(1000+Math.random()*9000));
+      });
+      S.items = []; S.meals += ctot; S.kg += Math.round(ctot*0.4); S.co2 += Math.round(ctot*0.4*2.5);
+      $("sMeals").textContent = S.meals; $("sKg").textContent = S.kg; $("sCo2").textContent = S.co2;
+      drawItems(); $("plan-out").innerHTML = '<div style="padding:15px;background:var(--surf);border:1px solid var(--ok);color:var(--ok);border-radius:12px;margin-top:12px"><b>'+ctot+' meals rescued!</b> Courier dispatched.</div>';
+    };
+  }
+};
+
+function log(msg){
+  var l = $("log"), li = document.createElement("li");
+  li.innerHTML = "<time>"+new Date().toLocaleTimeString()+"</time> " + msg;
+  l.insertBefore(li, l.firstChild);
+}
+
+// NGO Board
+function drawNeeds(){
+  var fd = $("fd").value, fv = $("fv").value, rest = S.rests[S.sel];
+  var fl = ORGS.filter(function(o){
+    return (fd==="all"||(fd==="veg"?!o.nv:o.nv)) && (fv==="all"||(fv==="own"?o.own:!o.own));
+  });
+  $("needs").innerHTML = fl.map(function(o){
+    var d = rest ? km(rest, o) : 0;
+    return '<div class="panel" style="padding:16px"><b>'+o.n+'</b><div class="hint" style="margin:2px 0">'+o.t+' · '+d+' km from kitchen</div>'+
+    '<div style="margin:8px 0;font-weight:bold">'+(o.need > 0 ? o.need + ' meals needed today' : 'Fully fulfilled!')+'</div>'+
+    '<div class="tags"><span>'+(o.nv?'Accepts Non-Veg':'Veg Only')+'</span>·<span>'+(o.own?'Own Vehicle':'Needs Courier')+'</span></div></div>';
+  }).join("");
+}
+$("fd").onchange = drawNeeds; $("fv").onchange = drawNeeds;
+
+// Initialize
+renderAreaSelect();
+renderCatChips();
+drawRests();
+forecast();
+drawNeeds();
+</script>
+</body>
+</html>`;
+
+  const reactAppCode = `// Second Serving - React + TypeScript Project
+// src/App.tsx, src/types.ts, and Components available in workspace.
+// Features: Full FSSAI verification, custom area/zone manager, GPS location,
+// Category window steppers, NGO board direct allocation & WhatsApp alerts.`;
+
+  const handleCopy = async () => {
+    const textToCopy = standaloneHtmlCode;
+    let copied = false;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        copied = true;
+      } catch (err) {
+        // Fallback below
+      }
+    }
+    if (!copied) {
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = textToCopy;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        copied = true;
+      } catch (err) {
+        console.error('Copy fallback failed', err);
+      }
+    }
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2500);
+  };
+
+  const handleDownload = () => {
+    const content = standaloneHtmlCode;
+    const blob = new Blob([content], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'second-serving-app.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleSelectAll = (e: React.MouseEvent<HTMLTextAreaElement>) => {
+    e.currentTarget.select();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-[var(--surf)] border border-[var(--line)] rounded-2xl max-w-4xl w-full p-6 shadow-2xl relative my-8 flex flex-col max-h-[90vh]">
+        {/* Header */}
+        <div className="flex items-center justify-between pb-3 border-b border-[var(--line)]">
+          <div className="flex items-center gap-2">
+            <FileCode className="w-5 h-5 text-[var(--pine)]" />
+            <div>
+              <h2 className="text-lg font-bold text-[var(--ink)]">
+                Export & Copy Complete Application Code
+              </h2>
+              <p className="text-xs text-[var(--mute)]">
+                Copy the complete, self-contained runnable code ready to paste and run in VS Code, CodePen, JSFiddle, or any browser.
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={onClose}
+            className="p-1.5 text-[var(--mute)] hover:text-[var(--ink)] rounded-lg hover:bg-[var(--bg)] cursor-pointer"
+            aria-label="Close modal"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Action Bar */}
+        <div className="flex items-center justify-between flex-wrap gap-3 py-3 border-b border-[var(--line)]">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[var(--pine)] text-[var(--onpine)]">
+              Single-File Standalone (.html)
+            </span>
+            <span className="text-xs text-[var(--mute)] hidden sm:inline">
+              Zero dependencies · Runs anywhere
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleDownload}
+              className="px-3.5 py-1.5 text-xs font-semibold rounded-xl border border-[var(--line)] hover:bg-[var(--bg)] text-[var(--ink)] inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Download .html</span>
+            </button>
+
+            <button
+              onClick={handleCopy}
+              className="px-4 py-1.5 text-xs font-bold rounded-xl bg-[var(--pine)] text-[var(--onpine)] hover:bg-[var(--pine-hover)] inline-flex items-center gap-1.5 shadow-xs cursor-pointer"
+            >
+              {isCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{isCopied ? 'Code Copied to Clipboard!' : 'Copy Code to Clipboard'}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Code Select-All Textarea Box */}
+        <div className="flex-1 my-3 flex flex-col min-h-[320px]">
+          <textarea
+            readOnly
+            value={standaloneHtmlCode}
+            onClick={handleSelectAll}
+            className="w-full flex-1 p-4 rounded-xl border border-[var(--line)] bg-[var(--bg)] font-mono text-xs text-[var(--ink)] leading-relaxed focus:outline-none focus:ring-2 focus:ring-[var(--pine)] resize-none"
+            title="Click anywhere inside to select all code"
+          />
+        </div>
+
+        {/* Footer */}
+        <div className="pt-3 border-t border-[var(--line)] flex items-center justify-between text-xs text-[var(--mute)]">
+          <span>Click inside the box to select all text, or click "Copy Code to Clipboard" above.</span>
+          <button
+            onClick={onClose}
+            className="px-4 py-1.5 font-bold rounded-xl bg-[var(--surf)] border border-[var(--line)] hover:bg-[var(--bg)] text-[var(--ink)] cursor-pointer"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
